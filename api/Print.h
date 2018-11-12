@@ -29,6 +29,8 @@
 #define OCT 8
 #define BIN 2
 
+namespace arduino {
+
 class Print
 {
   private:
@@ -84,3 +86,4 @@ class Print
     size_t println(void);
 };
 
+}
