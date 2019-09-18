@@ -30,25 +30,20 @@
 // private method to read stream with timeout
 int Stream::timedRead()
 {
-  int c;
-  _startMillis = millis();
-  do {
-    c = read();
-    if (c >= 0) return c;
-  } while(millis() - _startMillis < _timeout);
-  return -1;     // -1 indicates timeout
+  timedPeek() < 0 ? -1 : read();
 }
 
 // private method to peek stream with timeout
 int Stream::timedPeek()
 {
   int c;
-  _startMillis = millis();
+  unsigned long start = millis();
+
   do {
     c = peek();
-    if (c >= 0) return c;
-  } while(millis() - _startMillis < _timeout);
-  return -1;     // -1 indicates timeout
+  } while(c < 0 && millis() - start < _timeout);
+
+  return c;
 }
 
 // returns peek of the next digit in the stream or -1 if timeout
